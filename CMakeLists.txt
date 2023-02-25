@@ -3,4 +3,4 @@ project(Corpse)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Corpse main.cpp client/client.cpp client/client.hpp encryption/encryptor.cpp encryption/encryptor.hpp)
+add_executable(Corpse src/main.cpp src/client/client.cpp src/client/client.hpp src/encryption/encryptor.cpp src/encryption/encryptor.hpp)
