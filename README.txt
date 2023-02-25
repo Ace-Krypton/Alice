@@ -1,6 +1,6 @@
 Corpse - Ransomware
 
-Corpse is an experimental ransomware that uses advanced encryption techniques to protect your files. 
+Corpse is an experimental ransomware that uses advanced encryption techniques to encrypt your files. 
 With Corpse, you can encrypt your files with AES-256-CTR in Counter Mode, using a random IV for each file. 
 The encryption is performed using multithreading, which ensures fast and efficient processing.
 Corpse also uses RSA-4096 to secure the client/server communication, providing an extra layer of protection. 
