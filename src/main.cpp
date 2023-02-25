@@ -36,7 +36,6 @@ auto main() -> std::int32_t {
     }
     std::cout << std::endl;
 
-
     int bytes_written = Encryptor::encrypt(in_file, out_file, key, iv);
     if (bytes_written > 0) {
         std::cout << "File encrypted successfully. " << bytes_written << " bytes written." << std::endl;
