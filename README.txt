@@ -14,12 +14,12 @@ Additionally, it can run as a daemon or as a dropper, allowing you to choose the
 Features
 
     Run in Background (or not)
-    Change encryption cypher to the AES-256-CTR(Counter Mode) with random IV for each file
+    AES-256-CTR(Counter Mode) with random IV for each file
     Multithreading
     RSA-4096 to secure the client/server communication
     Include an Unlocker
-    Add an optional TOR Proxy support
-    Use an AES CTR Cypher with stream encryption to avoid load an entire file into memory
+    Optional TOR Proxy support
+    Usege of AES CTR Cypher with stream encryption to avoid load an entire file into memory
     Docker image for compilation
     Daemon
     Dropper
