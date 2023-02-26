@@ -28,7 +28,7 @@ auto main() -> std::int32_t {
     }
 
     std::cout << "IV: ";
-    for (int i = 0; i < EVP_MAX_IV_LENGTH; i++) {
+    for (std::uint_fast16_t i = 0; i < EVP_MAX_IV_LENGTH; i++) {
         std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(iv[i]);
         if (i < EVP_MAX_IV_LENGTH - 1) {
             std::cout << ":";

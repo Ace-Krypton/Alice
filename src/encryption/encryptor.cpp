@@ -9,9 +9,11 @@
 
 #include "encryptor.hpp"
 
-auto Encryptor::encrypt(const char* in_file, const char* out_file,
+auto Encryptor::encrypt(const char* in_file,
+                        const char* out_file,
                         const unsigned char* key,
                         const unsigned char* iv) -> int {
+
     EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
     if (ctx == nullptr) {
         std::cerr << "Error creating cipher context" << std::endl;
@@ -34,7 +36,7 @@ auto Encryptor::encrypt(const char* in_file, const char* out_file,
 
     const int BLOCK_SIZE = 1024;
     unsigned char in_buff[BLOCK_SIZE];
-    unsigned char out_buff[BLOCK_SIZE+EVP_MAX_BLOCK_LENGTH];
+    unsigned char out_buff[BLOCK_SIZE + EVP_MAX_BLOCK_LENGTH];
     int num_bytes_read, out_len = 0, total_out_len = 0;
 
     while ((num_bytes_read = static_cast<int>(infile.read((char*)in_buff, BLOCK_SIZE).gcount())) > 0) {
