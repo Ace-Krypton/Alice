@@ -4,6 +4,7 @@
  */
 
 #include <iomanip>
+#include <fstream>
 #include <iostream>
 #include <openssl/rand.h>
 
@@ -28,14 +29,12 @@ auto main() -> std::int32_t {
         return -1;
     }
 
-    std::cout << "IV: ";
-    for (int i = 0; i < EVP_MAX_IV_LENGTH; i++) {
-        std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(iv[i]);
-        if (i < EVP_MAX_IV_LENGTH - 1) {
-            std::cout << ":";
-        }
+    std::ofstream iv_writer("/home/draco/IV.txt");
+    for (unsigned char i : iv) {
+        iv_writer << "0x" << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(i);
+        iv_writer << '\n';
     }
-    std::cout << std::endl;
+    iv_writer.close();
 
     int encrypted_bytes_written = Encryptor::encrypt(in_file, encr_out_file, key, iv);
     if (encrypted_bytes_written > 0) {
@@ -44,10 +43,19 @@ auto main() -> std::int32_t {
         std::cerr << "Error encrypting file" << std::endl;
     }
 
-    unsigned char _iv[EVP_MAX_IV_LENGTH] = {
-            0x5c, 0x52, 0x19, 0x84, 0xa3, 0xdd, 0xe9, 0x1a,
-            0x80, 0x89, 0xf0, 0x8d, 0x45, 0xf2, 0xef, 0xbf
-    };
+    unsigned char _iv[EVP_MAX_IV_LENGTH];
+    std::ifstream iv_reader("/home/draco/IV.txt");
+
+    for (unsigned char &element : _iv) {
+        std::string hex_byte;
+        if (!getline(iv_reader, hex_byte)) {
+            std::cerr << "Error reading IV from file" << std::endl;
+            return -1;
+        }
+        element = static_cast<unsigned char>(std::stoi(hex_byte, nullptr, 16));
+    }
+    iv_reader.close();
+
     const char* decr_out_file = "/home/draco/decrypted_output.txt";
     int decrypted_bytes_written = Decryptor::decrypt(encr_out_file, decr_out_file, key, _iv);
     if (decrypted_bytes_written > 0) {
