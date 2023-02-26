@@ -8,6 +8,7 @@
 #include <openssl/rand.h>
 
 #include "encryption/encryptor.hpp"
+#include "decryption/decryptor.hpp"
 
 auto main() -> std::int32_t {
     const unsigned char key[] = {
@@ -19,7 +20,7 @@ auto main() -> std::int32_t {
 
     [[maybe_unused]] const int KEY_SIZE = sizeof(key);
     const char* in_file = "/home/draco/testfile.txt";
-    const char* out_file = "/home/draco/output.txt";
+    const char* encr_out_file = "/home/draco/output.txt";
 
     unsigned char iv[EVP_MAX_IV_LENGTH];
     if (!RAND_bytes(iv, EVP_MAX_IV_LENGTH)) {
@@ -36,11 +37,19 @@ auto main() -> std::int32_t {
     }
     std::cout << std::endl;
 
-    int bytes_written = Encryptor::encrypt(in_file, out_file, key, iv);
-    if (bytes_written > 0) {
-        std::cout << "File encrypted successfully. " << bytes_written << " bytes written." << std::endl;
+    int encrypted_bytes_written = Encryptor::encrypt(in_file, encr_out_file, key, iv);
+    if (encrypted_bytes_written > 0) {
+        std::cout << "File encrypted successfully. " << encrypted_bytes_written << " bytes written." << std::endl;
     } else {
         std::cerr << "Error encrypting file" << std::endl;
+    }
+
+    const char* decr_out_file = "/home/draco/output.txt";
+    int decrypted_bytes_written = Decryptor::decrypt(encr_out_file, decr_out_file, key, iv);
+    if (decrypted_bytes_written > 0) {
+        std::cout << "File decrypted successfully. " << decrypted_bytes_written << " bytes written." << std::endl;
+    } else {
+        std::cerr << "Error decrypting file" << std::endl;
     }
 
     return 0;

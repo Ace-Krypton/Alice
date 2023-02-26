@@ -31,6 +31,8 @@ auto Encryptor::encrypt(const char* in_file,
     if (!infile.is_open() || !outfile.is_open()) {
         std::cerr << "Error opening files" << std::endl;
         EVP_CIPHER_CTX_free(ctx);
+        infile.close();
+        outfile.close();
         return -1;
     }
 
@@ -43,6 +45,8 @@ auto Encryptor::encrypt(const char* in_file,
         if (!EVP_EncryptUpdate(ctx, out_buff, &out_len, in_buff, num_bytes_read)) {
             std::cerr << "Error encrypting data" << std::endl;
             EVP_CIPHER_CTX_free(ctx);
+            infile.close();
+            outfile.close();
             return -1;
         }
         outfile.write((char*)out_buff, out_len);
@@ -52,6 +56,8 @@ auto Encryptor::encrypt(const char* in_file,
     if (!EVP_EncryptFinal_ex(ctx, out_buff, &out_len)) {
         std::cerr << "Error finalizing cipher" << std::endl;
         EVP_CIPHER_CTX_free(ctx);
+        infile.close();
+        outfile.close();
         return -1;
     }
     outfile.write((char*)out_buff, out_len);
