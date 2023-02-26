@@ -19,8 +19,8 @@ auto main() -> std::int32_t {
     };
 
     [[maybe_unused]] const int KEY_SIZE = sizeof(key);
-    const char* in_file = "/home/draco/testfile.txt";
-    const char* encr_out_file = "/home/draco/output.txt";
+    const char* in_file = "/home/draco/tobe_encrypted.txt";
+    const char* encr_out_file = "/home/draco/encrypted_output.txt";
 
     unsigned char iv[EVP_MAX_IV_LENGTH];
     if (!RAND_bytes(iv, EVP_MAX_IV_LENGTH)) {
@@ -29,7 +29,7 @@ auto main() -> std::int32_t {
     }
 
     std::cout << "IV: ";
-    for (std::uint_fast16_t i = 0; i < EVP_MAX_IV_LENGTH; i++) {
+    for (int i = 0; i < EVP_MAX_IV_LENGTH; i++) {
         std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(iv[i]);
         if (i < EVP_MAX_IV_LENGTH - 1) {
             std::cout << ":";
@@ -44,8 +44,12 @@ auto main() -> std::int32_t {
         std::cerr << "Error encrypting file" << std::endl;
     }
 
-    const char* decr_out_file = "/home/draco/output.txt";
-    int decrypted_bytes_written = Decryptor::decrypt(encr_out_file, decr_out_file, key, iv);
+    unsigned char _iv[EVP_MAX_IV_LENGTH] = {
+            0x5c, 0x52, 0x19, 0x84, 0xa3, 0xdd, 0xe9, 0x1a,
+            0x80, 0x89, 0xf0, 0x8d, 0x45, 0xf2, 0xef, 0xbf
+    };
+    const char* decr_out_file = "/home/draco/decrypted_output.txt";
+    int decrypted_bytes_written = Decryptor::decrypt(encr_out_file, decr_out_file, key, _iv);
     if (decrypted_bytes_written > 0) {
         std::cout << "File decrypted successfully. " << decrypted_bytes_written << " bytes written." << std::endl;
     } else {
