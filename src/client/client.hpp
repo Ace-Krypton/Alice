@@ -8,7 +8,7 @@
 #define CLIENT_SIDE_CONNECTION_HPP
 
 struct [[maybe_unused]] ClientSide {
-    [[maybe_unused]] auto static connection(const std::string& message) -> int;
+    auto static connection(const std::string& message) -> int;
 };
 
 #endif //CLIENT_SIDE_CONNECTION_HPP

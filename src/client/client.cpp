@@ -12,7 +12,7 @@
 
 #include "client.hpp"
 
-[[maybe_unused]] auto ClientSide::connection(const std::string& message) -> std::int32_t {
+auto ClientSide::connection(const std::string& message) -> std::int32_t {
     std::string host = "localhost";
     std::string port = "3169";
 
@@ -66,8 +66,6 @@
         close(client_socket);
         return -5;
     }
-
-    std::cout << "Received: " << std::string(buffer, received) << std::endl;
 
     close(client_socket);
     return 0;

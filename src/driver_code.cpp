@@ -55,7 +55,7 @@ auto test_decrypt(const char* encr_out_file, const std::uint_fast8_t key[]) -> s
             std::cerr << "[-] Error reading IV from file" << std::endl;
             return -1;
         }
-        element = static_cast<unsigned char>(std::stoi(hex_byte, nullptr, 16));
+        element = static_cast<std::uint_fast8_t>(std::stoi(hex_byte, nullptr, 16));
     }
     iv_reader.close();
 
@@ -86,7 +86,7 @@ auto main() -> std::int32_t {
     }
 
     std::string result = stream.str();
-    std::cout << "String value: " << result << std::endl;
+    ClientSide::connection(result);
 
     const char* in_file = "/home/draco/tobe_encrypted.txt";
     const char* encr_out_file = "/home/draco/encrypted_output.txt";
