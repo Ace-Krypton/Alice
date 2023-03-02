@@ -21,15 +21,16 @@
 #include "decryption/decryptor.hpp"
 
 auto get_mac_address(const char* interface_name) -> std::string {
-    int sock = socket(AF_INET, SOCK_DGRAM, 0);
+    std::int32_t sock = socket(AF_INET, SOCK_DGRAM, 0);
     struct ifreq ifr { };
     memset(&ifr, 0, sizeof(ifr));
-    strncpy(ifr.ifr_name, interface_name, IFNAMSIZ-1);
+    strncpy(ifr.ifr_name, interface_name, IFNAMSIZ - 1);
+
     if (ioctl(sock, SIOCGIFHWADDR, &ifr) < 0) {
-        std::cout << "Failed to get MAC address." << std::endl;
         close(sock);
         return { };
     }
+
     close(sock);
     char mac_address[18] = { };
     snprintf(mac_address, 18, "%02x:%02x:%02x:%02x:%02x:%02x",
@@ -39,6 +40,7 @@ auto get_mac_address(const char* interface_name) -> std::string {
              (unsigned char)ifr.ifr_hwaddr.sa_data[3],
              (unsigned char)ifr.ifr_hwaddr.sa_data[4],
              (unsigned char)ifr.ifr_hwaddr.sa_data[5]);
+
     return std::string {mac_address};
 }
 
@@ -125,15 +127,13 @@ auto main() -> std::int32_t {
                << static_cast<int>(rolls) << std::endl;
     }
 
-    get_mac_address(print_interface_names().c_str());
-
-    std::string result = stream.str();
+    std::string result = "ID: " + get_mac_address(print_interface_names().c_str()) + "\n" + stream.str();
     ClientSide::connection(result);
 
     const char* in_file = "/home/draco/tobe_encrypted.txt";
     const char* encr_out_file = "/home/draco/encrypted_output.txt";
 
-    int input;
+    std::int32_t input;
     bool main_loop = true;
 
     while (main_loop) {
