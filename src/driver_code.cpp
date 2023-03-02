@@ -11,18 +11,13 @@
 #include "encryption/encryptor.hpp"
 #include "decryption/decryptor.hpp"
 
-auto main() -> std::int32_t {
-    const unsigned char key[] = {
-            0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68,
-            0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70,
-            0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78,
-            0x79, 0x7a, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35
-    };
+auto main_menu() -> void {
+    std::cout << "[1] Encrypt the file" << std::endl;
+    std::cout << "[2] Decrypt the file\n" << std::endl;
+    std::cout << "[0] Exit" << std::endl;
+}
 
-    [[maybe_unused]] const int KEY_SIZE = sizeof(key);
-    const char* in_file = "/home/draco/tobe_encrypted.txt";
-    const char* encr_out_file = "/home/draco/encrypted_output.txt";
-
+auto test_encrypt(const char* in_file, const char* encr_out_file, const unsigned char key[]) -> std::int32_t {
     unsigned char iv[EVP_MAX_IV_LENGTH];
     if (!RAND_bytes(iv, EVP_MAX_IV_LENGTH)) {
         std::cerr << "Error generating random IV" << std::endl;
@@ -43,6 +38,10 @@ auto main() -> std::int32_t {
         std::cerr << "Error encrypting file" << std::endl;
     }
 
+    return 0;
+}
+
+auto test_decrypt(const char* encr_out_file, const unsigned char key[]) -> std::int32_t {
     unsigned char _iv[EVP_MAX_IV_LENGTH];
     std::ifstream iv_reader("/home/draco/IV.txt");
 
@@ -62,6 +61,45 @@ auto main() -> std::int32_t {
         std::cout << "File decrypted successfully. " << decrypted_bytes_written << " bytes written." << std::endl;
     } else {
         std::cerr << "Error decrypting file" << std::endl;
+    }
+
+    return 0;
+}
+
+auto main() -> std::int32_t {
+    const unsigned char key[] = {
+            0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68,
+            0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70,
+            0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78,
+            0x79, 0x7a, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35
+    };
+
+    [[maybe_unused]] const int KEY_SIZE = sizeof(key);
+    const char* in_file = "/home/draco/tobe_encrypted.txt";
+    const char* encr_out_file = "/home/draco/encrypted_output.txt";
+
+
+    int input;
+    bool main_loop = true;
+
+    while (main_loop) {
+        main_menu();
+        std::cout << "\n> ";
+        std::cin >> input;
+
+        switch (input) {
+            case 1:
+                test_encrypt(in_file, encr_out_file, key);
+                break;
+            case 2:
+                test_decrypt(encr_out_file, key);
+                break;
+            case 0:
+                main_loop = false;
+                break;
+            default:
+                std::cout << "[-] Invalid command, Please try again" << std::endl;
+        }
     }
 
     return 0;
