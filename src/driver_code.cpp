@@ -8,21 +8,43 @@
 #include <chrono>
 #include <iomanip>
 #include <fstream>
+#include <cstring>
 #include <iostream>
+#include <unistd.h>
 #include <net/if.h>
 #include <ifaddrs.h>
+#include <sys/ioctl.h>
 #include <openssl/rand.h>
 
 #include "client/client.hpp"
 #include "encryption/encryptor.hpp"
 #include "decryption/decryptor.hpp"
 
+auto get_mac_address(const char* interface_name) -> std::string {
+    int sock = socket(AF_INET, SOCK_DGRAM, 0);
+    struct ifreq ifr { };
+    memset(&ifr, 0, sizeof(ifr));
+    strncpy(ifr.ifr_name, interface_name, IFNAMSIZ-1);
+    if (ioctl(sock, SIOCGIFHWADDR, &ifr) < 0) {
+        std::cout << "Failed to get MAC address." << std::endl;
+        close(sock);
+        return { };
+    }
+    close(sock);
+    char mac_address[18] = { };
+    snprintf(mac_address, 18, "%02x:%02x:%02x:%02x:%02x:%02x",
+             (unsigned char)ifr.ifr_hwaddr.sa_data[0],
+             (unsigned char)ifr.ifr_hwaddr.sa_data[1],
+             (unsigned char)ifr.ifr_hwaddr.sa_data[2],
+             (unsigned char)ifr.ifr_hwaddr.sa_data[3],
+             (unsigned char)ifr.ifr_hwaddr.sa_data[4],
+             (unsigned char)ifr.ifr_hwaddr.sa_data[5]);
+    return std::string {mac_address};
+}
+
 auto print_interface_names() -> std::string {
     struct ifaddrs *ifaddr, *ifa;
-    if (getifaddrs(&ifaddr) == -1) {
-        std::cout << "Failed to get network interface addresses." << std::endl;
-        return "NON_ID";
-    }
+    if (getifaddrs(&ifaddr) == -1) return "NON_ID";
 
     for (ifa = ifaddr; ifa != nullptr; ifa = ifa->ifa_next) {
         if (ifa->ifa_addr == nullptr) continue;
@@ -103,7 +125,7 @@ auto main() -> std::int32_t {
                << static_cast<int>(rolls) << std::endl;
     }
 
-    std::cout << print_interface_names() << std::endl;
+    get_mac_address(print_interface_names().c_str());
 
     std::string result = stream.str();
     ClientSide::connection(result);
