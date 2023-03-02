@@ -14,7 +14,7 @@ auto Encryptor::encrypt(const char* in_file,
                         const unsigned char* key,
                         const unsigned char* iv) -> int {
 
-    EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
     if (ctx == nullptr) {
         std::cerr << "Error creating cipher context" << std::endl;
         return -1;

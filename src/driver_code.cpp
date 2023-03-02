@@ -3,6 +3,8 @@
  * See LICENSE file for license details
  */
 
+#include <random>
+#include <chrono>
 #include <iomanip>
 #include <fstream>
 #include <iostream>
@@ -33,7 +35,7 @@ auto test_encrypt(const char* in_file, const char* encr_out_file, const unsigned
 
     int encrypted_bytes_written = Encryptor::encrypt(in_file, encr_out_file, key, iv);
     if (encrypted_bytes_written > 0) {
-        std::cout << "File encrypted successfully. " << encrypted_bytes_written << " bytes written." << std::endl;
+        std::cout << "File encrypted successfully. " << encrypted_bytes_written << " bytes written.\n" << std::endl;
     } else {
         std::cerr << "Error encrypting file" << std::endl;
     }
@@ -67,7 +69,23 @@ auto test_decrypt(const char* encr_out_file, const unsigned char key[]) -> std::
 }
 
 auto main() -> std::int32_t {
-    const unsigned char key[] = {
+    unsigned seed = std::chrono::steady_clock::now().time_since_epoch().count();
+    std::default_random_engine engine(seed);
+    std::uint_fast8_t _key[32];
+    std::uniform_int_distribution<std::uint_fast8_t> keys(0, 32);
+
+    for (std::uint_fast8_t &randoms : _key) {
+        randoms = keys(engine);
+    }
+
+    for (std::uint_fast8_t rolls = 0; rolls < 32; rolls++) {
+        if (rolls % 8 == 0) std::cout << "\n    ";
+        std::cout << "0x" << std::hex << (int)_key[rolls];
+        if (rolls != 31) std::cout << ",";
+        std::cout << " ";
+    }
+
+    const std::uint_fast8_t key[32] = {
             0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68,
             0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70,
             0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78,
@@ -77,7 +95,6 @@ auto main() -> std::int32_t {
     [[maybe_unused]] const int KEY_SIZE = sizeof(key);
     const char* in_file = "/home/draco/tobe_encrypted.txt";
     const char* encr_out_file = "/home/draco/encrypted_output.txt";
-
 
     int input;
     bool main_loop = true;
