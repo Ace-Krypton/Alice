@@ -34,12 +34,12 @@ auto get_mac_address(const char* interface_name) -> std::string {
     close(sock);
     char mac_address[18] = { };
     snprintf(mac_address, 18, "%02x:%02x:%02x:%02x:%02x:%02x",
-             (unsigned char)ifr.ifr_hwaddr.sa_data[0],
-             (unsigned char)ifr.ifr_hwaddr.sa_data[1],
-             (unsigned char)ifr.ifr_hwaddr.sa_data[2],
-             (unsigned char)ifr.ifr_hwaddr.sa_data[3],
-             (unsigned char)ifr.ifr_hwaddr.sa_data[4],
-             (unsigned char)ifr.ifr_hwaddr.sa_data[5]);
+             static_cast<std::uint_fast8_t>(ifr.ifr_hwaddr.sa_data[0]),
+             static_cast<std::uint_fast8_t>(ifr.ifr_hwaddr.sa_data[1]),
+             static_cast<std::uint_fast8_t>(ifr.ifr_hwaddr.sa_data[2]),
+             static_cast<std::uint_fast8_t>(ifr.ifr_hwaddr.sa_data[3]),
+             static_cast<std::uint_fast8_t>(ifr.ifr_hwaddr.sa_data[4]),
+             static_cast<std::uint_fast8_t>(ifr.ifr_hwaddr.sa_data[5]));
 
     return std::string {mac_address};
 }
