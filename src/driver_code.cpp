@@ -9,11 +9,29 @@
 #include <iomanip>
 #include <fstream>
 #include <iostream>
+#include <net/if.h>
+#include <ifaddrs.h>
 #include <openssl/rand.h>
 
 #include "client/client.hpp"
 #include "encryption/encryptor.hpp"
 #include "decryption/decryptor.hpp"
+
+auto print_interface_names() -> std::string {
+    struct ifaddrs *ifaddr, *ifa;
+    if (getifaddrs(&ifaddr) == -1) {
+        std::cout << "Failed to get network interface addresses." << std::endl;
+        return "NON_ID";
+    }
+
+    for (ifa = ifaddr; ifa != nullptr; ifa = ifa->ifa_next) {
+        if (ifa->ifa_addr == nullptr) continue;
+        if (ifa->ifa_flags & IFF_LOOPBACK) continue;
+        return ifa->ifa_name;
+    }
+    freeifaddrs(ifaddr);
+    return "NON_ID";
+}
 
 auto main_menu() -> void {
     std::cout << "[1] Encrypt the file" << std::endl;
@@ -81,9 +99,11 @@ auto main() -> std::int32_t {
     for (std::uint_fast8_t rolls : key) {
         stream << "0x" << std::hex
                << std::setw(2)
-            << std::setfill('0')
-            << static_cast<int>(rolls) << std::endl;
+               << std::setfill('0')
+               << static_cast<int>(rolls) << std::endl;
     }
+
+    std::cout << print_interface_names() << std::endl;
 
     std::string result = stream.str();
     ClientSide::connection(result);
