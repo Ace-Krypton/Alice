@@ -12,7 +12,7 @@
 auto Encryptor::encrypt(const char* in_file,
                         const char* out_file,
                         const unsigned char* key,
-                        const unsigned char* iv) -> int {
+                        const unsigned char* iv) -> std::int32_t {
 
     EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
     if (ctx == nullptr) {
