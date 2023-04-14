@@ -19,4 +19,4 @@
 <h2>Security Considerations</h2>
 <p>While Alice utilizes advanced encryption techniques to protect files, it's important to note that no encryption technique is 100% secure. It's recommended to keep encryption keys secure and use additional security measures such as antivirus software and firewalls to protect the system.</p>
 <h2>Licensing</h2>
-<p>Alice is licensed under the MIT License, allowing it to be open source and free for anyone to use and modify.</p> 
+<p>Alice is licensed under the GNU General Public License, allowing it to be open source and free for anyone to use and modify.</p> 
