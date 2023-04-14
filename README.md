@@ -13,7 +13,9 @@
     <li>Docker image for easy compilation and portability</li>
     <li>Daemon or dropper modes for flexibility</li>
 </ul>
-<p>Alice uses RSA-4096 to secure the client/server communication, and includes an Unlocker that allows for decryption of files when needed. Optional TOR Proxy support provides additional anonymity. To avoid loading an entire file into memory, it uses an AES CTR Cipher with stream encryption, enabling fast encryption and decryption of large files.</p>
+<h2>Compatibility and Configuration Options</h2>
 <p>Alice can be compiled using a Docker image, making it easy to build and run on different platforms. Additionally, it can run as a daemon or as a dropper, giving the user the ability to choose the best configuration for their needs.</p>
+<h2>Security Considerations</h2>
 <p>While Alice utilizes advanced encryption techniques to protect files, it's important to note that no encryption technique is 100% secure. It's recommended to keep encryption keys secure and use additional security measures such as antivirus software and firewalls to protect the system.</p>
-<p>Alice is licensed under the MIT License, allowing it to be open source and free for anyone to use and modify.</p>
+<h2>Licensing</h2>
+<p>Alice is licensed under the MIT License, allowing it to be open source and free for anyone to use and modify.</p> 
