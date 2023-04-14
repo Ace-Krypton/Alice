@@ -6,15 +6,15 @@
 <p>Alice is an experimental ransomware that uses advanced encryption techniques to protect files. It uses AES-256-CTR in Counter Mode with a random IV for each file, and performs encryption using multithreading for fast and efficient processing.</p>
 <h2>Features</h2>
 <ul>
-    <li>Run in Background (or not) [-]</li>
-    <li>AES-256-CTR (Counter Mode) with random IV for each file [+]</li>
-    <li>Multithreading for fast and efficient processing [-]</li>
-    <li>RSA-4096 for secure client/server communication [-]</li>
-    <li>Unlocker for decryption of files when needed [-]</li>
-    <li>Optional TOR Proxy support for additional anonymity [-]</li>
-    <li>Usage of AES CTR Cipher with stream encryption to avoid loading entire files into memory [+]</li>
-    <li>Docker image for easy compilation and portability [-]</li>
-    <li>Daemon or dropper modes for flexibility [-]</li>
+    <li>Run in Background (or not) [ - ]</li>
+    <li>AES-256-CTR (Counter Mode) with random IV for each file [ + ]</li>
+    <li>Multithreading for fast and efficient processing [ - ]</li>
+    <li>RSA-4096 for secure client/server communication [ - ]</li>
+    <li>Unlocker for decryption of files when needed [ - ]</li>
+    <li>Optional TOR Proxy support for additional anonymity [ - ]</li>
+    <li>Usage of AES CTR Cipher with stream encryption to avoid loading entire files into memory [ + ]</li>
+    <li>Docker image for easy compilation and portability [ - ]</li>
+    <li>Daemon or dropper modes for flexibility [ - ]</li>
 </ul>
 <h2>Compatibility and Configuration Options</h2>
 <p>Alice can be compiled using a Docker image, making it easy to build and run on different platforms. Additionally, it can run as a daemon or as a dropper, giving the user the ability to choose the best configuration for their needs.</p>
