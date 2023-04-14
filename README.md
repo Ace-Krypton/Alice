@@ -1,5 +1,5 @@
 <h1>Alice</h1>
-![public](https://user-images.githubusercontent.com/75210504/232133307-7abaed3b-9259-4b51-b819-ff7d4b50ab0e.png)
+<img src="https://user-images.githubusercontent.com/75210504/232134043-69b74b61-2f66-4cfd-920a-4372e0eeb7bc.png" width="30%">
 <p>Alice is an experimental ransomware that utilizes advanced encryption techniques to encrypt files. With this ransomware, files can be encrypted using AES-256-CTR in Counter Mode with a random IV for each file. The encryption is performed using multithreading, ensuring fast and efficient processing.</p>
 <h2>Features</h2>
 <ul>
